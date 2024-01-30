@@ -1,10 +1,12 @@
 import pygame
-from random import random, choice
+from random import choice
+from math import sqrt
 
 # ---- SETTINGS ----
-max_fps = 15                # Controls max FPS, FPS influences simulation speed
-screen_size = (800, 800)    # Controls screen size
-grid_size = (20, 20)        # Controls sand grid size, for grains to be pixels set to screen_size
+max_fps = 30
+screen_size = (800, 800)
+grid_size = (100, 100)
+brush_radius = 3
 
 # Pygame setup
 pygame.init()
@@ -13,7 +15,7 @@ clock = pygame.time.Clock()
 running = True
 
 # Sand setup
-cellDimensions = (screen_size[0] / grid_size[0], screen_size[1] / grid_size[1])
+cellDimensions = (screen_size[0] // grid_size[0], screen_size[1] // grid_size[1])
 grid = [ [None] * grid_size[1] for _ in range(grid_size[0]) ]
 
 while running:
@@ -29,6 +31,26 @@ while running:
     # Clear screen
     screen.fill('black')
 
+    # Add or subtract grains around mouse when LMB is pressed
+    if True in pygame.mouse.get_pressed():
+        position = (pygame.mouse.get_pos()[0] // cellDimensions[0], pygame.mouse.get_pos()[1] // cellDimensions[1])
+
+        for i in range(-brush_radius, brush_radius):
+            if i + position[1] < 0 or i + position[1] >= grid_size[1]:
+                continue
+            
+            for j in range(-brush_radius, brush_radius):
+                if j + position[0] < 0 or j + position[0] >= grid_size[0]:
+                    continue
+
+                if sqrt(i*i + j*j) < brush_radius:
+                    if pygame.mouse.get_pressed()[0] == True:
+                        grid[i + position[1]][j + position[0]] = True
+                        continue
+
+                    if pygame.mouse.get_pressed()[2] == True:
+                        grid[i + position[1]][j + position[0]] = None
+    
     # Simulate grains of sand
     newGrid = [ [None] * grid_size[1] for _ in range(grid_size[0]) ]
 
