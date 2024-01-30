@@ -8,7 +8,8 @@ screen_size = (800, 800)
 grid_size = (100, 100)
 brush_radius = 3
 
-# Pygame setup
+snad_colors = ['#f6d7b0', '#f2d2a9', '#eccca2', '#e7c496', '#e1bf92'] # Palette from https://www.color-hex.com/color-palette/11392
+
 pygame.init()
 screen = pygame.display.set_mode(screen_size)
 clock = pygame.time.Clock()
@@ -45,7 +46,7 @@ while running:
 
                 if sqrt(i*i + j*j) < brush_radius:
                     if pygame.mouse.get_pressed()[0] == True:
-                        grid[i + position[1]][j + position[0]] = True
+                        grid[i + position[1]][j + position[0]] = choice(snad_colors)
                         continue
 
                     if pygame.mouse.get_pressed()[2] == True:
@@ -82,9 +83,9 @@ while running:
     # Draw grains on screen
     for i in range(grid_size[0]):
         for j in range(grid_size[1]):
-            if grid[i][j] == True:
+            if grid[i][j] != None:
                 rect = pygame.Rect((j * cellDimensions[0], i * cellDimensions[1]), cellDimensions)
-                pygame.draw.rect(screen, 'white', rect)
+                pygame.draw.rect(screen, grid[i][j], rect)
 
     # Display image to screen
     pygame.display.flip()
