@@ -1,9 +1,12 @@
-let cellSize = 50;
-let canvasSize = 800;
+const cellSize = 20;
+const canvasSize = 800;
 
 let gridSize = Math.floor(canvasSize / cellSize);
-
 let grid;
+
+let speedInput;
+
+speedInput = document.getElementById("speed");
 
 function createArray(rows, columns, value) {
   let array = new Array(rows);
@@ -34,13 +37,17 @@ function countNeighbors(grid, row, column) {
 }
 
 function setup() {
-  createCanvas(canvasSize, canvasSize);
-  frameRate(3);
+  createCanvas(canvasSize, canvasSize, document.getElementById("canvas"));
 
   grid = createArray(gridSize, gridSize, 0);
+
+  // Simulation seed
+  grid[6][3] = 1;
+  grid[7][4] = 1;
   grid[5][5] = 1;
   grid[6][5] = 1;
   grid[7][5] = 1;
+
 }
 
 function draw() {
@@ -48,6 +55,8 @@ function draw() {
 
   // Draw grid to screen
   fill(255);
+
+  frameRate(int(speedInput.value))
 
   for(let i = 0; i < gridSize; i++) {
     for(let j = 0; j < gridSize; j++) {

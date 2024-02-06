@@ -3,6 +3,10 @@ html, body {
   padding: 0;
 }
 
-canvas {
-  display: block;
+.center {
+  width: min-content;
+  justify-content: center;
+  align-items: center;
+
+  margin: auto;
 }
