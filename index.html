@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <script src="libraries/p5.min.js"></script>
+    <script src="https://kit.fontawesome.com/f5a4b72b46.js"></script>
   </head>
 
   <body>
@@ -18,7 +19,11 @@
       </div>
 
       <div>
-        <input type="range" id="speed" min="1" max="10" value="1">
+        <button onclick="simulationPlay()"><i class="fa-solid fa-play"></i></button>
+        <button onclick="simulationStop()"><i class="fa-solid fa-stop"></i></button>
+        <label for="speed">Simulation speed</label>
+        <input type="range" name="speed" id="speed" min="1" max="10" value="1">
+        <button onclick="simulationStep()"><i class="fa-solid fa-forward-step"></i></button>
       </div>
     </div>
 

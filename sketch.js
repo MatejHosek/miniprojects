@@ -1,20 +1,34 @@
 const cellSize = 20;
 const canvasSize = 800;
 
-let gridSize = Math.floor(canvasSize / cellSize);
+const gridSize = Math.floor(canvasSize / cellSize);
 let grid;
 
 let speedInput;
 
+// Simulation speed control
 speedInput = document.getElementById("speed");
 
+function simulationPlay() {
+  loop()
+}
+
+function simulationStop() {
+  noLoop()
+}
+
+function simulationStep() {
+  redraw()
+}
+
 function createArray(rows, columns, value) {
+  //Create an array of size rows*columns, filled with value
   let array = new Array(rows);
 
-  for(let i = 0; i < rows; i++){
+  for(let i = 0; i < rows; i++) {
     array[i] = new Array(columns);
 
-    for(let j = 0; j < columns; j++){
+    for(let j = 0; j < columns; j++) {
       array[i][j] = value;
     }  
   }
@@ -47,16 +61,16 @@ function setup() {
   grid[5][5] = 1;
   grid[6][5] = 1;
   grid[7][5] = 1;
-
 }
 
 function draw() {
   background(0);
 
+  // Update freme rate
+  frameRate(int(speedInput.value))
+  
   // Draw grid to screen
   fill(255);
-
-  frameRate(int(speedInput.value))
 
   for(let i = 0; i < gridSize; i++) {
     for(let j = 0; j < gridSize; j++) {
@@ -73,7 +87,7 @@ function draw() {
     for(let j = 0; j < gridSize; j++) {
       let neighbors = countNeighbors(grid, i, j);
 
-      if (grid[i][j] == 0){
+      if (grid[i][j] == 0) {
         // If cell is dead and has 3 neighbors, make it alive
         if (neighbors == 3) newGrid[i][j] = 1;
         continue;
