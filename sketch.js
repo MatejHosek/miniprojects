@@ -1,7 +1,7 @@
 const cellSize = 20;
 const canvasSize = 800;
 
-const gridSize = Math.floor(canvasSize / cellSize);
+let gridSize = Math.floor(canvasSize / cellSize);
 let grid;
 
 let speedInput;
