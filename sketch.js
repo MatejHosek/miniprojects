@@ -1,3 +1,5 @@
+// TODO: Disconnect draw and simulation functions
+
 const cellSize = 20;
 const canvasSize = 800;
 
@@ -107,4 +109,22 @@ function draw() {
   }
 
   grid = newGrid;
+}
+
+function mouseDragged() {
+  mouseControl();
+}
+
+function mousePressed() {
+  mouseControl();
+}
+
+function mouseControl() {
+  // Add cells under the mouse while pressed
+  if (mouseIsPressed === true && mouseButton === LEFT) {
+    let gridX = Math.floor(mouseX / cellSize);
+    let gridY = Math.floor(mouseY / cellSize);
+    
+    grid[gridX][gridY] = 1;
+  }
 }
