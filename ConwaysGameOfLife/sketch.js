@@ -8,19 +8,24 @@ let grid;
 
 let speedInput;
 
+// Track time since last simulation to keep a constant simulation frame rate
+let timeSinceSim = 0;
+let simulate = true;
+
 // Simulation speed control
 speedInput = document.getElementById("speed");
 
 function simulationPlay() {
-  loop()
+  simulate = true;
 }
 
 function simulationStop() {
-  noLoop()
+  simulate = false;
 }
 
 function simulationStep() {
-  redraw()
+  grid = simulateGrid();
+  redraw();
 }
 
 function createArray(rows, columns, value) {
@@ -52,37 +57,12 @@ function countNeighbors(grid, row, column) {
   return neighbors - grid[row][column];
 }
 
-function setup() {
-  createCanvas(canvasSize, canvasSize, document.getElementById("canvas"));
-
-  grid = createArray(gridSize, gridSize, 0);
-
-  // Simulation seed
-  grid[6][3] = 1;
-  grid[7][4] = 1;
-  grid[5][5] = 1;
-  grid[6][5] = 1;
-  grid[7][5] = 1;
-}
-
-function draw() {
-  background(0);
-
-  // Update freme rate
-  frameRate(int(speedInput.value))
-  
-  // Draw grid to screen
-  fill(255);
-
-  for(let i = 0; i < gridSize; i++) {
-    for(let j = 0; j < gridSize; j++) {
-      if(grid[i][j] == 1) {
-        square(i*cellSize, j*cellSize, cellSize);
-      }
-    }  
+function simulateGrid() {
+  // If simulation is paused, return the unchanged grid
+  if (!simulate) {
+    return grid;
   }
 
-  // Simulate the grid
   newGrid = createArray(gridSize, gridSize, 0);
 
   for(let i = 0; i < gridSize; i++) {
@@ -108,7 +88,45 @@ function draw() {
     }  
   }
 
-  grid = newGrid;
+  return newGrid;
+}
+
+function setup() {
+  createCanvas(canvasSize, canvasSize, document.getElementById("canvas"));
+
+  grid = createArray(gridSize, gridSize, 0);
+
+  // Simulation seed
+  grid[6][3] = 1;
+  grid[7][4] = 1;
+  grid[5][5] = 1;
+  grid[6][5] = 1;
+  grid[7][5] = 1;
+}
+
+function draw() {
+  // Clear canvas
+  background(0);
+  
+  // Set brush color
+  fill(255);
+
+  // Draw grid to canvas
+  for(let i = 0; i < gridSize; i++) {
+    for(let j = 0; j < gridSize; j++) {
+      if(grid[i][j] == 1) {
+        square(i*cellSize, j*cellSize, cellSize);
+      }
+    }  
+  }
+
+  // Simulate the grid
+  if (timeSinceSim / 1000 > 1 / speedInput.value) {
+    grid = simulateGrid();
+    timeSinceSim = 0;
+  }
+
+  timeSinceSim += deltaTime;
 }
 
 function mouseDragged() {
