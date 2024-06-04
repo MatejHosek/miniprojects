@@ -56,7 +56,7 @@ function generate() {
   }
 
   // Generate assasins
-  for(let assasin = 0; assaisn < assasins; assasin++) {
+  for(let assasin = 0; assasin < assasins; assasin++) {
     shuffleArray(possiblePoints);
     const pozice = possiblePoints.pop();
   
