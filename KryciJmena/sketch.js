@@ -1,4 +1,4 @@
-const canvasSize = 800;
+const canvasSize = screen.height - 100;
 const margin = 5;
 
 const gridSize = 5;
@@ -67,6 +67,7 @@ function generate() {
 
 function setup() {
   createCanvas(canvasSize, canvasSize, document.getElementById("canvas"));
+  strokeWeight(0);
 
   grid = createArray(gridSize, gridSize, 0);
   generate();
@@ -92,6 +93,12 @@ function draw() {
       // If position is agent
       if(grid[i][j] > 0) {
         fill(colors[grid[i][j] - 1])
+        rect(i*cellSizeX + margin, j*cellSizeY + margin, cellSizeX - 2 * margin, cellSizeY - 2 * margin);
+      }
+
+      // If position is empty
+      if(grid[i][j] == 0) {
+        fill('beige');
         rect(i*cellSizeX + margin, j*cellSizeY + margin, cellSizeX - 2 * margin, cellSizeY - 2 * margin);
       }
     }  
